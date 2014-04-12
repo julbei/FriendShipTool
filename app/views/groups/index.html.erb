@@ -1,0 +1,28 @@
+<h1>Listing groups</h1>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Descritption</th>
+			<th colspan="3"></th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% @groups.each do |group| %>
+		<tr>
+			<td><%= group.name %></td>
+			<td><%= group.descritption %></td>
+			<td><%= link_to 'people', group_people_path(group_id: group.id), class: "btn btn-info"%></td>
+			<td> <%= link_to 'Show', group, class:"btn btn-primary"%> </td>
+			<td> <%= link_to 'Edit', edit_group_path(group), class:"btn btn-warning"%> </td>
+			<td> <%= link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' },class:"btn btn-danger"%> </td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Group', new_group_path %>

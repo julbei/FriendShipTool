@@ -1,4 +1,8 @@
 Wgtool::Application.routes.draw do
+  resources :groups do
+    resources :people
+  end
+
   root :to => "home#index"
   resources :users, :only => [:index, :show, :edit, :update ]
   get '/auth/:provider/callback' => 'sessions#create'
