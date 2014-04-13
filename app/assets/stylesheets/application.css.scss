@@ -13,3 +13,25 @@
  *= require_tree .
  *= require_self
  */
+
+.main{
+  max-width:960px;
+  margin-top: 70px;
+}
+.h-navbar{
+  max-width:960px;
+}
+h1 .btn-primary{
+  color:white;
+}
+.navbar strong{
+  display: block;
+  line-height: 20px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  color: white;
+}
+
+.user-widget {
+  float: right;
+}

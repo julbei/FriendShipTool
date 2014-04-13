@@ -1,5 +1,12 @@
 <%# add navigation links to this file %>
-<li>
-<%= link_to 'groups', groups_path %>
-</li>
+<% if current_user %>
+
+<li class="user-widget pull-right"><strong>
+	<%= current_user.name %>
+	</strong>
+	</li>
+	<li class="user-widget pull-right">
+	<%= link_to "Sign out", signout_path, id: "sign_out" %>
+	</li>
+<% end %>
 

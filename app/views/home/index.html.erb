@@ -1,11 +1,17 @@
-<h3>Home</h3>
-
-
-<div id="user-widget">
-  <% if current_user %>
-    Welcome <strong><%= current_user.name %></strong>!
-    <%= link_to "Sign out", signout_path, id: "sign_out" %>
-  <% else %>
-    <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
-  <% end %>
+<div class="row">
+	<div id="user-widget" class="col-md-8">
+		<%= render 'layouts/messages' %>
+		<% if current_user %>
+			Welcome <strong><%= current_user.name %></strong>!
+		<% else %>
+			<%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
+		<% end %>
+	</div>
+</div>
+<div class="row">
+	<% if current_user %>
+		<div class="col-md-8">
+			<%= link_to 'groups', groups_path, class: "btn btn-primary" %>
+		</div>
+	<% end %>
 </div>
