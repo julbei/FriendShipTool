@@ -1,4 +1,4 @@
-<h1>Listing people</h1>
+<h1>People in <%= link_to @group.name, @group %></h1>
 
 <table class="table">
   <thead>
@@ -14,7 +14,6 @@
       <tr>
         <td><%= person.name %></td>
         <td><%= person.balance %></td>
-        <td><%= link_to 'Show', group_person_path(id:person), class:"btn btn-primary" %></td>
         <td><%= link_to 'Destroy', group_person_path(id: person), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger" %></td>
       </tr>
     <% end %>
