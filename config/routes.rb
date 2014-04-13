@@ -1,4 +1,6 @@
 Wgtool::Application.routes.draw do
+  resources :accountings
+
   resources :groups do
     resources :people
   end

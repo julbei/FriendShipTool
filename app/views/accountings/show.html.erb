@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Group:</strong>
+  <%= @accounting.group.name %>
+</p>
+
+<p>
+  <strong>Paid by:</strong>
+  <%= @accounting.person.name %>
+</p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= @accounting.amount %>
+</p>
+
+<%= link_to 'Edit', edit_accounting_path(@accounting) %> |
+<%= link_to 'Back', accountings_path %>
