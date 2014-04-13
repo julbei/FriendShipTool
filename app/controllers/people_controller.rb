@@ -20,12 +20,34 @@ class PeopleController < ApplicationController
     @group = Group.find(params[:group_id]) 
     @person = Person.new
     @person.group = @group
+    @person.balance = 0.00
+    @person.save
   end
 
   # GET /people/1/edit
   def edit
+    
   end
+  
+  #Assign Person to User
+  def assign
+    @group = Group.find(params[:group_id]) 
+    @person = @group.persons.find(params[:person_id])
+    @person.user_id = current_user.id
+    @person.save
+    
+    respond_to do |format|
+      if @person.save
+        format.html { redirect_to group_path(id: @group.id), notice: "You have been assigned to #{@person.name}" }
+        format.json { render :show, status: :created, location: @person }
+      else
+        format.html { render :new }
+        format.json { render json: @person.errors, status: :unprocessable_entity }
+      end
+    end
 
+  end
+  
   # POST /people
   # POST /people.json
   def create

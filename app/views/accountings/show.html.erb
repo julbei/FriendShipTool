@@ -15,5 +15,5 @@
   <%= @accounting.amount %>
 </p>
 
-<%= link_to 'Edit', edit_accounting_path(@accounting) %> |
-<%= link_to 'Back', accountings_path %>
+<%= link_to 'Edit', edit_group_accounting_path(group_id: @group.id, id: @accounting.id) %> |
+<%= link_to 'Back', @group %>

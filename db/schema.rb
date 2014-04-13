@@ -15,10 +15,11 @@ ActiveRecord::Schema.define(version: 20140413172234) do
 
   create_table "accountings", force: true do |t|
     t.string   "name"
+    t.text     "description"
     t.integer  "group_id"
     t.integer  "person_id"
     t.decimal  "amount"
-    t.date     "date"
+    t.datetime "date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -45,6 +46,7 @@ ActiveRecord::Schema.define(version: 20140413172234) do
     t.string   "name"
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
+    t.string   "image"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

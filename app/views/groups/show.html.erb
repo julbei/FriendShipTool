@@ -1,50 +1,147 @@
 <div class="row">
 	<div class="panel panel-info">
-		<div class="panel-heading">
-			<h3 class="panel-title">
-				<%= @group.name %>
-			</h3>
+		<div class="panel-heading clearfix">
+			<h2 class="panel-title pull-left"><strong><%= @group.name %></strong></h2>
+			<div class="btn-group pull-right">
+				<%= link_to 'Back', groups_path , class:"btn btn-primary "%>
+				<%= link_to 'Edit', edit_group_path(@group), class:"btn btn-warning "%>
+			</div>
 		</div>
 		<div class="panel-body">
-			<p>
-				<%= @group.descritption %>
-			</p>
+			<div class="row">
+				<div class="col-md-12">
+					<%= render 'layouts/messages' %>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<p>
+						<%= @group.descritption %>
+					</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="well">
+						<div class="row">
+							<% @people.each do |person| %>
+							<div class="col-md-1 person">
+								<% if person.user.present? %>
+								<%= image_tag(person.user.image) %>
+								<% else %>
+								<div class="image">
+									no image available
+								</div>
+								<% end %>
+								<p>
+									<strong><%= person.name %></strong>
+								</p>
+								<p>
+									<%= number_to_currency(person.balance,:unit=>'€', :separator=>",", format: "%n %u")%>
+								</p>
+								<% unless person.user.present? %>
+								<%= link_to "This is me!", {controller: :people, action: :assign, group_id:@group.id, person_id: person.id} %>
+								<% else %>
+								<% if person.user_id == current_user.id %>
+								<%= link_to '', group_person_path(group_id: person.group.id, id: person.id), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger btn-sm glyphicon glyphicon-remove-circle" %>
+								<% end%>
+								<% end %>
+							</div>
+							<% end %>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<%= link_to 'New Person', new_group_person_path(group_id: @group.id), class:"btn btn-success" %>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<hr />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<h3>Accountings:</h3>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Group</th>
+								<th>Paid by</th>
+								<th>Amount</th>
+								<th>Date</th>
+								<th colspan="3"></th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<% @group.accountings.each do |accounting| %>
+							<tr>
+								<td><%= accounting.name %></td>
+								<td><%= accounting.group.name %></td>
+								<td><%= accounting.person.name %></td>
+								<td><%= accounting.amount %></td>
+								<td><%= accounting.date %></td>
+								<td><%= link_to 'Show', group_accounting_path(group_id: @group.id, id: accounting.id) %></td>
+								<td><%= link_to 'Edit', edit_group_accounting_path(group_id: @group.id, id: accounting.id) %></td>
+								<td><%= link_to 'Destroy', group_accounting_path(group_id: @group.id, id: accounting.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+							</tr>
+							<% end %>
+						</tbody>
+					</table>
+					<hr />
+					<!-- Button trigger modal -->
+					<button class="btn btn-success" data-toggle="modal" data-target="#newAccounting">
+						New Accounting
+					</button>
+
+					<!-- Modal -->
+					<div class="modal fade" id="newAccounting" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+										&times;
+									</button>
+									<h4 class="modal-title" id="myModalLabel">New Accounting</h4>
+								</div>
+								<div class="modal-body">
+									<% @accounting = Accounting.new %>
+									<%= simple_form_for([@group, @accounting]) do |f| %>
+									<%= f.error_notification %>
+
+									<div class="form-inputs">
+										<%= f.input :name %>
+										<%= f.input :amount %>
+										<%= f.input :date %>
+									</div>
+									<div class="modal-footer">
+									
+									<div class="form-actions">
+										<button type="button" class="btn btn-default" data-dismiss="modal">
+										Close
+									</button>
+										<%= f.button :submit, class: "btn btn-primary" %>
+									</div>
+									</div>
+									<% end %>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Modal -->
+				</div>
+				<div class="col-md-6">
+					<h3>Statistics:</h3>
+				</div>
+			</div>
 		</div>
 		<div class="panel-footer">
-			<%= link_to 'Edit', edit_group_path(@group), class:"btn btn-warning"%>
-		</div>	
-	</div>	
+
+		</div>
+	</div>
 </div>
-<div class="row">
-
-	
-</div>
-<div class="row">
-	
-</div>
-
-
-<h3>Participants:</h3>
-<%= render 'layouts/messages' %>
-	<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Balance</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @people.each do |person| %>
-      <tr>
-        <td><%= person.name %></td>
-        <td><%= person.balance %></td>
-        <td><%= link_to 'Destroy', group_person_path(group_id: @group.id, id: person.id), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger" %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<%= link_to 'New Person', new_group_person_path(group_id: @group.id), class:"btn btn-success" %>
-<%= link_to 'Back', groups_path , class:"btn btn-primary"%>
 

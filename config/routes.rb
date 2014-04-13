@@ -1,9 +1,11 @@
 Wgtool::Application.routes.draw do
-  resources :accountings
-
+  
   resources :groups do
     resources :people
+    resources :accountings
   end
+  
+  get 'people/assign', to: 'people#assign'
 
   root :to => "home#index"
   resources :users, :only => [:index, :show, :edit, :update ]
