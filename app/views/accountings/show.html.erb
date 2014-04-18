@@ -1,19 +1,74 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Group:</strong>
-  <%= @accounting.group.name %>
-</p>
-
-<p>
-  <strong>Paid by:</strong>
-  <%= @accounting.person.name %>
-</p>
-
-<p>
-  <strong>Amount:</strong>
-  <%= @accounting.amount %>
-</p>
-
-<%= link_to 'Edit', edit_group_accounting_path(group_id: @group.id, id: @accounting.id) %> |
-<%= link_to 'Back', @group %>
+<div class="row">
+	<div class="panel panel-info">
+		<div class="panel-heading clearfix">
+			<h2 class="panel-title pull-left"><strong><%= @accounting.name %> in <%= @group.name%></strong></h2>
+			<div class="btn-group pull-right">
+				<%= link_to 'Back', group_path(@group), class:"btn btn-primary" %>
+				<%= link_to 'Edit', edit_group_accounting_path(group_id: @group.id, id: @accounting.id), class:"btn btn-warning" %>
+			</div>
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-md-12">
+					<%= render 'layouts/messages' %>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<p>
+						<strong>Amount:</strong>
+						<%= money(@accounting.amount) %>
+					</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<table class="table">
+					  <thead>
+					    <tr>
+					      <th>Lender</th>
+					      <th>Borrower</th>
+					      <th>Amount</th>
+					      <th colspan="2"></th>
+					    </tr>
+					  </thead>
+					
+					  <tbody>
+					    <% @accounting.shares.each do |share| %>
+					      <tr>
+					      	<td class="person">
+									<% @person = share.lender%>
+									<% if @person.user.present? %>
+									<%= image_tag(@person.user.image) %>
+									<% else %>
+									<div class="image">
+										no image available
+									</div>
+									<% end %>
+									<strong><%= @person.name %></strong>
+							</td>
+					        <td class="person">
+									<% @person = share.borrower%>
+									<% if @person.user.present? %>
+									<%= image_tag(@person.user.image) %>
+									<% else %>
+									<div class="image">
+										no image available
+									</div>
+									<% end %>
+									<strong><%= @person.name %></strong>
+							</td>
+					        <td><%= money(share.amount) %></td>
+					        <td><%= link_to 'Edit', edit_group_accounting_share_path(accounting_id: @accounting.id, id: share.id) %></td>
+					        <td><%= link_to 'Destroy', group_accounting_share_path(accounting_id: @accounting.id, id: share.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+					      </tr>
+					    <% end %>
+					  </tbody>
+					</table>
+					<%= link_to 'New Share', new_group_accounting_share_path(group_id: @group.id, accounting_id:@accounting.id), class:"btn btn-success" %>
+				</div>
+			</div>
+		</div>
+		<div class="panel-footer"></div>
+	</div>
+</div>

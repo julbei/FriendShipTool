@@ -33,9 +33,16 @@ class AccountingsController < ApplicationController
     @accounting = Accounting.new(accounting_params)
     @accounting.group = @group
     @accounting.person = current_user.people.where(group_id: @group.id).first
+    
+    @share_amount = @accounting.amount / @group.persons.count
+    @group.persons.each do |person|
+      @accounting.shares.build(lender: @accounting.person, borrower: person, amount: @share_amount)
+    end
+    
+    
     respond_to do |format|
       if @accounting.save
-        format.html { redirect_to @group, notice: 'Accounting was successfully created.' }
+        format.html { redirect_to group_accounting_path(id:@accounting.id), notice: 'Accounting was successfully created.' }
         format.json { render :show, status: :created, location: @accounting }
       else
         format.html { render :new }

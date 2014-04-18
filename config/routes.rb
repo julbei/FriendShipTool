@@ -1,8 +1,12 @@
 Wgtool::Application.routes.draw do
   
+  
+
   resources :groups do
     resources :people
-    resources :accountings
+    resources :accountings do
+      resources :shares
+    end
   end
   
   get 'people/assign', to: 'people#assign'

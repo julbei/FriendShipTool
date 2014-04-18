@@ -1,3 +1,4 @@
+
 <div class="row">
 	<div class="panel panel-info">
 		<div class="panel-heading clearfix">
@@ -5,6 +6,7 @@
 			<div class="btn-group pull-right">
 				<%= link_to 'Back', groups_path , class:"btn btn-primary "%>
 				<%= link_to 'Edit', edit_group_path(@group), class:"btn btn-warning "%>
+				<%= link_to 'delete', @group, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger" %>
 			</div>
 		</div>
 		<div class="panel-body">
@@ -37,13 +39,14 @@
 									<strong><%= person.name %></strong>
 								</p>
 								<p>
-									<%= number_to_currency(person.balance,:unit=>'€', :separator=>",", format: "%n %u")%>
+									<%= money(person.balance) %>
 								</p>
 								<% unless person.user.present? %>
-								<%= link_to "This is me!", {controller: :people, action: :assign, group_id:@group.id, person_id: person.id} %>
-								<% else %>
+									<p><%= link_to "This is me!", {controller: :people, action: :assign, group_id:@group.id, person_id: person.id} %></p>
+									<p><%= link_to '', group_person_path(group_id: person.group.id, id: person.id), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger btn-sm glyphicon glyphicon-remove-circle" %></p>
+								<% else%>
 								<% if person.user_id == current_user.id %>
-								<%= link_to '', group_person_path(group_id: person.group.id, id: person.id), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger btn-sm glyphicon glyphicon-remove-circle" %>
+									<%= link_to '', group_person_path(group_id: person.group.id, id: person.id), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger btn-sm glyphicon glyphicon-remove-circle" %>
 								<% end%>
 								<% end %>
 							</div>
@@ -69,11 +72,10 @@
 						<thead>
 							<tr>
 								<th>Name</th>
-								<th>Group</th>
 								<th>Paid by</th>
 								<th>Amount</th>
 								<th>Date</th>
-								<th colspan="3"></th>
+								<th colspan="2"></th>
 							</tr>
 						</thead>
 
@@ -81,61 +83,54 @@
 							<% @group.accountings.each do |accounting| %>
 							<tr>
 								<td><%= accounting.name %></td>
-								<td><%= accounting.group.name %></td>
-								<td><%= accounting.person.name %></td>
-								<td><%= accounting.amount %></td>
-								<td><%= accounting.date %></td>
-								<td><%= link_to 'Show', group_accounting_path(group_id: @group.id, id: accounting.id) %></td>
-								<td><%= link_to 'Edit', edit_group_accounting_path(group_id: @group.id, id: accounting.id) %></td>
-								<td><%= link_to 'Destroy', group_accounting_path(group_id: @group.id, id: accounting.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+								<td class="person">
+									<% @person = accounting.person%>
+									<% if @person.user.present? %>
+									<%= image_tag(@person.user.image) %>
+									<% else %>
+									<div class="image">
+										no image available
+									</div>
+									<% end %>
+									<strong><%= @person.name %></strong>
+								</td>
+								<td><%= money(accounting.amount) %></td>
+								<td><%= distance_of_time_in_words_to_now(accounting.date) %> ago </td>
+								<td><%= link_to 'Show', group_accounting_path(group_id: @group.id, id: accounting.id), class:"btn btn-primary btn-sm" %></td>
+								<td><%= link_to '', group_accounting_path(group_id: @group.id, id: accounting.id), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger btn-sm glyphicon glyphicon-remove-circle" %></td>
 							</tr>
 							<% end %>
 						</tbody>
 					</table>
+					<p class="pull-right">
+						Total: <%= money(@group.accountings.sum(:amount))%>
+					</p>
 					<hr />
-					<!-- Button trigger modal -->
-					<button class="btn btn-success" data-toggle="modal" data-target="#newAccounting">
-						New Accounting
-					</button>
-
-					<!-- Modal -->
-					<div class="modal fade" id="newAccounting" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-										&times;
-									</button>
-									<h4 class="modal-title" id="myModalLabel">New Accounting</h4>
-								</div>
-								<div class="modal-body">
-									<% @accounting = Accounting.new %>
-									<%= simple_form_for([@group, @accounting]) do |f| %>
-									<%= f.error_notification %>
-
-									<div class="form-inputs">
-										<%= f.input :name %>
-										<%= f.input :amount %>
-										<%= f.input :date %>
-									</div>
-									<div class="modal-footer">
-									
-									<div class="form-actions">
-										<button type="button" class="btn btn-default" data-dismiss="modal">
-										Close
-									</button>
-										<%= f.button :submit, class: "btn btn-primary" %>
-									</div>
-									</div>
-									<% end %>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- Modal -->
+					<%= link_to 'new Accounting', new_group_accounting_path(group_id: @group.id), class:"btn btn-primary"%>
+					
 				</div>
 				<div class="col-md-6">
 					<h3>Statistics:</h3>
+					<div class="progress">
+						<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+							<span class="sr-only">40% Complete (success)</span>
+						</div>
+					</div>
+					<div class="progress">
+						<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+							<span class="sr-only">20% Complete</span>
+						</div>
+					</div>
+					<div class="progress">
+						<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+							<span class="sr-only">60% Complete (warning)</span>
+						</div>
+					</div>
+					<div class="progress">
+						<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+							<span class="sr-only">80% Complete</span>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

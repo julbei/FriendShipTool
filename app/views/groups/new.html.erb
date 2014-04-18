@@ -1,5 +1,35 @@
-<h1>New group</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Back', groups_path %>
+<div class="row">
+	<div class="panel panel-info">
+		<div class="panel-heading clearfix">
+			<h2 class="panel-title pull-left"><strong>New Group</strong></h2>
+			<div class="btn-group pull-right">
+				<%= link_to 'Back', groups_path(id: @group.id), class:"btn btn-primary" %>
+			</div>
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-md-12">
+					<%= render 'layouts/messages' %>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<%= simple_form_for(@group) do |f| %>
+					  <%= f.error_notification %>
+					
+					  <div class="form-inputs">
+					    <%= f.input :name %>
+					    <%= f.input :descritption %>
+					  </div>
+					
+					  <div class="form-actions">
+					    <%= f.button :submit, class:"btn btn-success" %>
+					  </div>
+					<% end %>
+				</div>
+			</div>
+		</div>
+		<div class="panel-footer">
+		</div>
+	</div>
+</div>
