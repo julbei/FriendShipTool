@@ -11,6 +11,8 @@ class GroupsController < ApplicationController
   # GET /groups/1.json
   def show
     @people = @group.persons
+    @total = @group.accountings.sum(:amount)
+    @sorted_tags = @group.tags.sort { |x,y| x.accountings.sum(:amount) <=> y.accountings.sum(:amount) }
   end
 
   # GET /groups/new
@@ -70,6 +72,6 @@ class GroupsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
-      params.require(:group).permit(:name, :descritption)
+      params.require(:group).permit(:name, :description)
     end
 end

@@ -1,6 +1,8 @@
 class Accounting < ActiveRecord::Base
   belongs_to :group
   belongs_to :person
+  has_many :taggings
+  has_many :tags, through: :taggings
   has_many :shares, dependent: :destroy
   has_many :borrowers, through: :shares, foreign_key: "borrower_id", :class_name => "Person"
   

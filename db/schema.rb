@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140414182111) do
+ActiveRecord::Schema.define(version: 20140418203059) do
 
   create_table "accountings", force: true do |t|
     t.string   "name"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20140414182111) do
 
   create_table "groups", force: true do |t|
     t.string   "name"
-    t.text     "descritption"
+    t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -56,6 +56,25 @@ ActiveRecord::Schema.define(version: 20140414182111) do
   end
 
   add_index "shares", ["accounting_id"], name: "index_shares_on_accounting_id"
+
+  create_table "taggings", force: true do |t|
+    t.integer  "tag_id"
+    t.integer  "accounting_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "taggings", ["accounting_id"], name: "index_taggings_on_accounting_id"
+  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id"
+
+  create_table "tags", force: true do |t|
+    t.string   "name"
+    t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tags", ["group_id"], name: "index_tags_on_group_id"
 
   create_table "users", force: true do |t|
     t.string   "provider"

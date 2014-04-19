@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="panel panel-info">
 		<div class="panel-heading clearfix">
-			<h2 class="panel-title pull-left"><strong>Edit in <%= @group.name%></strong></h2>
+			<h2 class="panel-title pull-left"><strong>New Tag in <%= @group.name%></strong></h2>
 			<div class="btn-group pull-right">
 				<%= link_to 'Back', group_path(id: @group.id), class:"btn btn-primary" %>
 			</div>
@@ -14,13 +14,11 @@
 			</div>
 			<div class="row">
 				<div class="col-md-12">
-					<%= simple_form_for([@group, @accounting]) do |f| %>
+					<%= simple_form_for([@group, @tag]) do |f| %>
 					<%= f.error_notification %>
 
 					<div class="form-inputs">
 						<%= f.input :name %>
-						<%= f.input :amount %>
-						<%= f.input :date %>
 					</div>
 
 				</div>

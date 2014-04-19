@@ -1,11 +1,31 @@
-<div class="panel panel-info col-md-6">
-			<div class="panel-heading">
-			<h3>New person</h3>
+<div class="row">
+	<div class="panel panel-info">
+		<div class="panel-heading clearfix">
+			<h2 class="panel-title pull-left"><strong>Person in <%= @group.name%></strong></h2>
+			<div class="btn-group pull-right">
+				<%= link_to 'Back', group_path(id: @group.id), class:"btn btn-primary" %>
 			</div>
-			<div class="panel-body">
-				<%= render 'form' %>
-			
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-md-12">
+					<%= render 'layouts/messages' %>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<%= simple_form_for([@group, @person]) do |f| %>
+					<%= f.error_notification %>
 
-	<%= link_to 'Back', group_people_path, class:"btn btn-primary" %>
+					<div class="form-inputs">
+						<%= f.input :name %>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="panel-footer">
+				<%= f.button :submit, class:"btn btn-success" %>
+				<% end %>
+		</div>
 	</div>
-</div>

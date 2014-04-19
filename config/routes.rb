@@ -2,8 +2,13 @@ Wgtool::Application.routes.draw do
   
   
 
+  resources :taggings
+
+  
+
   resources :groups do
     resources :people
+    resources :tags
     resources :accountings do
       resources :shares
     end

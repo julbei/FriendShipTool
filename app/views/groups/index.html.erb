@@ -1,9 +1,17 @@
-
-<div class="page-header">
-<h1>Your Groups</h1>
-</div>
-<%= render 'layouts/messages' %>
 <div class="row">
+	<div class="panel panel-info">
+		<div class="panel-heading clearfix">
+			<h2 class="panel-title navbar-left"><strong>Your Groups</strong></h2>
+		    <h3 class="navbar-right"><%= link_to content_tag(:span,"",class:"glyphicon glyphicon-glass")+' New', new_group_path, class:"btn btn-success"  %></h3>
+		    <div class="clearfix"></div>
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-md-12">
+					<%= render 'layouts/messages' %>
+				</div>
+			</div>
+			<div class="row">
 	<% @groups.each  do |group| %>
 	<div class="col-md-4 group">
 		<div class="panel panel-info">
@@ -11,16 +19,25 @@
 				<h3 class="panel-title"><%= link_to group.name, group%> <span class="badge pull-right"><%= group.persons.count %></span> </h3>
 			</div>
 			<div class="panel-body">
-				<p>
-					<%= group.descritption.first(30) %>
+				<p><% unless group.description.nil? %>
+					<%= group.description.first(30) %>
+					<% if group.description.length > 30 %>
+					...
+					<% end %>
+					<% if group.description.length == 0 %>
+					 .
+					<% end %>
+					<% end %>
 				</p>
 			</div>
 			<div class="panel-footer">
-					<%= link_to 'Delete', group, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger btn-sm glyphicon glyphicon-remove-circle"%>
+					<%= link_to content_tag(:span,"",class:"glyphicon glyphicon-trash")+' Delete', group, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger btn-sm"%>
 			</div>
 		</div>
 	</div>
 	<% end %>
 </div>
+</div>
 
-<%= link_to 'New Group', new_group_path, class:"btn btn-success"  %>
+
+

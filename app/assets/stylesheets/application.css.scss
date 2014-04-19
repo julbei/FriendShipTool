@@ -17,6 +17,10 @@
 .main{
   max-width:960px;
   margin-top: 70px;
+  padding-bottom: 0px;
+}
+.panel-info{
+  margin-bottom: 0px;
 }
 .h-navbar{
   max-width:960px;
@@ -37,13 +41,13 @@ h1 .btn-primary{
 }
 
 
-span  .money .positive{
+.money-positive{
     color: green;
-  }
-span  .money .negative{
+}
+.money-negative{
     color: red;
-  }
-span  .money .zero{
+}
+.money-zero{
     color: black;
-  }
+}
 
