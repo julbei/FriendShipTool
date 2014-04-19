@@ -24,14 +24,16 @@
 					<% if group.description.length > 30 %>
 					...
 					<% end %>
-					<% if group.description.length == 0 %>
+					<% if group.description.strip.length == 0 %>
 					 .
 					<% end %>
 					<% end %>
 				</p>
 			</div>
 			<div class="panel-footer">
-					<%= link_to content_tag(:span,"",class:"glyphicon glyphicon-trash")+' Delete', group, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger btn-sm"%>
+					<%= link_to content_tag(:span,"",class:"glyphicon glyphicon-folder-open")+' Show', group, class:"btn btn-primary btn-sm pull-left"%>
+					<%= link_to content_tag(:span,"",class:"glyphicon glyphicon-trash")+' Delete', group, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger btn-sm pull-right"%>
+					<div class="clearfix"></div>
 			</div>
 		</div>
 	</div>

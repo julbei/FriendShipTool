@@ -14,56 +14,53 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-6">
 					<p>
 						<strong>Amount:</strong>
 						<%= money(@accounting.amount) %>
 					</p>
 				</div>
+				<div class="col-md-6">
+					<strong>Tags:</strong>
+					<% @accounting.tags.each do |tag| %>
+					<span class="label label-primary"><%= tag.name %></span>
+					<% end %>
+						<%= select_tag(:id, options_from_collection_for_select((@accounting.group.tags - @accounting.tags), "id", "name"), prompt: "Add Tag", onchange: ("$('add_tag').submit()")) %>
+				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-12">
 					<table class="table">
-					  <thead>
-					    <tr>
-					      <th>Lender</th>
-					      <th>Borrower</th>
-					      <th>Amount</th>
-					      <th colspan="2"></th>
-					    </tr>
-					  </thead>
-					
-					  <tbody>
-					    <% @accounting.shares.each do |share| %>
-					      <tr>
-					      	<td class="person">
-									<% @person = share.lender%>
-									<% if @person.user.present? %>
-									<%= image_tag(@person.user.image) %>
-									<% else %>
-									<div class="image">
-										no image available
-									</div>
-									<% end %>
-									<strong><%= @person.name %></strong>
-							</td>
-					        <td class="person">
-									<% @person = share.borrower%>
-									<% if @person.user.present? %>
-									<%= image_tag(@person.user.image) %>
-									<% else %>
-									<div class="image">
-										no image available
-									</div>
-									<% end %>
-									<strong><%= @person.name %></strong>
-							</td>
-					        <td><%= money(share.amount) %></td>
-					        <td><%= link_to 'Edit', edit_group_accounting_share_path(accounting_id: @accounting.id, id: share.id) %></td>
-					        <td><%= link_to 'Destroy', group_accounting_share_path(accounting_id: @accounting.id, id: share.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-					      </tr>
-					    <% end %>
-					  </tbody>
+						<thead>
+							<tr>
+								<th>Lender</th>
+								<th>Borrower</th>
+								<th>Amount</th>
+								<th colspan="2"></th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<% @accounting.shares.each do |share| %>
+							<tr>
+								<td> <% @person = share.lender%>
+								<% if @person.user.present? %>
+								<%= image_tag(@person.user.image, class:"img-circle img-thumbnail ") %>
+								<% else %>
+								<%= image_tag("person.png", class:"img-circle img-thumbnail ")%>
+								<% end %> <strong><%= @person.name %></strong></td>
+								<td> <% @person = share.borrower%>
+								<% if @person.user.present? %>
+								<%= image_tag(@person.user.image, class:"img-circle img-thumbnail img-person") %>
+								<% else %>
+								<%= image_tag("person.png", class:"img-circle img-thumbnail img-person")%>
+								<% end %> <strong><%= @person.name %></strong></td>
+								<td><%= money(share.amount) %></td>
+								<td class="btn-group"><%= link_to ' ', edit_group_accounting_share_path(accounting_id: @accounting.id, id: share.id), class:"btn btn-primary btn-sm glyphicon glyphicon-folder-open" %>
+								<%= link_to ' ', group_accounting_share_path(accounting_id: @accounting.id, id: share.id), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger btn-sm glyphicon glyphicon-trash" %></td>
+							</tr>
+							<% end %>
+						</tbody>
 					</table>
 					<%= link_to 'New Share', new_group_accounting_share_path(group_id: @group.id, accounting_id:@accounting.id), class:"btn btn-success" %>
 				</div>

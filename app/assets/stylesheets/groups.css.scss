@@ -2,22 +2,4 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.person{
-  background-color: white;
-  margin: 0 5px 5px 5px;
-  text-align: center;
-  padding: 3px;
-  -webkit-box-shadow: 1px 1px 1px 0 #D4D4D4;
-  box-shadow: 1px 1px 1px 0 #D4D4D4;
-  -webkit-border-radius: 3px 3px 3px 3px;
-  border-radius: 3px 3px 3px 3px;
 
-  .img-person{
-    width: 54px;
-    height: 54px;
-  }
-}
-
-h2.panel-title {
-  font-size: 2.5em;
-}
