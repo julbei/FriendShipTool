@@ -11,11 +11,14 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 gem 'bootstrap-sass'
+
 gem 'omniauth'
 gem 'omniauth-facebook', '1.4.0'
 gem 'simple_form'
 gem 'unicorn'
 gem 'unicorn-rails'
+gem 'rest_in_place'
+
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :mri_21, :rbx]

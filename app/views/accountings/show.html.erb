@@ -1,7 +1,11 @@
 <div class="row">
 	<div class="panel panel-info">
 		<div class="panel-heading clearfix">
-			<h2 class="panel-title pull-left"><strong><%= @accounting.name %> in <%= @group.name%></strong></h2>
+			<h2 class="panel-title pull-left">
+				<strong class="rest-in-place" data-url="<%= "/groups/#{@group.id}/accountings/#{@accounting.id}"%>" data-object="accounting" data-attribute="name" data-placeholder="Enter a name">
+					<%= @accounting.name %>
+				</strong>
+				<strong> in <%= @group.name%></strong></h2>
 			<div class="btn-group pull-right">
 				<%= link_to 'Back', group_path(@group), class:"btn btn-primary" %>
 				<%= link_to 'Edit', edit_group_accounting_path(group_id: @group.id, id: @accounting.id), class:"btn btn-warning" %>
@@ -17,7 +21,9 @@
 				<div class="col-md-6">
 					<p>
 						<strong>Amount:</strong>
-						<%= money(@accounting.amount) %>
+						<span class="rest-in-place" data-url="<%= "/groups/#{@group.id}/accountings/#{@accounting.id}"%>" data-object="accounting" data-attribute="amount" data-placeholder="Enter an amount">
+							<%= @accounting.amount %>
+						</span> €
 					</p>
 				</div>
 				<div class="col-md-6" id="tags">
@@ -27,7 +33,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-12">
-					<table class="table">
+					<table class="table" id="sahres">
 						<thead>
 							<tr>
 								<th>Lender</th>
@@ -52,7 +58,9 @@
 								<% else %>
 								<%= image_tag("person.png", class:"img-circle img-thumbnail img-person")%>
 								<% end %> <strong><%= @person.name %></strong></td>
-								<td><%= money(share.amount) %></td>
+								<td><span class="amount rest-in-place" data-url="<%= "/groups/#{@group.id}/accountings/#{@accounting.id}/shares/#{share.id}"%>" data-object="share" data-attribute="amount" data-placeholder="Enter an amount">
+									<%= share.amount %></span>
+									€</td>
 								<td class="btn-group"><%= link_to ' ', edit_group_accounting_share_path(accounting_id: @accounting.id, id: share.id), class:"btn btn-primary btn-sm glyphicon glyphicon-folder-open" %>
 								<%= link_to ' ', group_accounting_share_path(accounting_id: @accounting.id, id: share.id), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger btn-sm glyphicon glyphicon-trash" %></td>
 							</tr>

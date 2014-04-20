@@ -46,10 +46,11 @@ class SharesController < ApplicationController
   # PATCH/PUT /shares/1
   # PATCH/PUT /shares/1.json
   def update
+    @share.amount = params[:share_amount]
     respond_to do |format|
       if @share.update(share_params)
         format.html { redirect_to group_accounting_path(group_id: @group.id, accounting_id: @accounting.id), notice: 'Share was successfully updated.' }
-        format.json { render :show, status: :ok, location: @share }
+        format.json { render json: @share, status: :ok }
       else
         format.html { render :edit }
         format.json { render json: @share.errors, status: :unprocessable_entity }

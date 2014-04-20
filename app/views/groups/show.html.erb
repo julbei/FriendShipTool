@@ -1,10 +1,11 @@
 <div class="row">
 	<div class="panel panel-info">
 		<div class="panel-heading clearfix">
-			<h2 class="panel-title pull-left"><strong><%= @group.name %></strong></h2>
+			<h2 class="panel-title pull-left">
+				<strong class="rest-in-place" data-url="<%= "/groups/#{@group.id}"%>" data-object="group" data-attribute="name" data-placeholder="Enter a name"><%= @group.name %></strong>
+			</h2>
 			<div class="btn-group pull-right">
 				<%= link_to 'Back', groups_path , class:"btn btn-primary "%>
-				<%= link_to 'Edit', edit_group_path(@group), class:"btn btn-warning "%>
 				<%= link_to 'delete', @group, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger" %>
 			</div>
 		</div>
@@ -12,7 +13,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<blockquote>
-						<p>
+						<p class="group-description rest-in-place" data-url="<%= "/groups/#{@group.id}"%>" data-object="group" data-attribute="description" data-placeholder="Enter a description" data-formtype="textarea">
 							<%= @group.description %>
 						</p>
 					</blockquote>
@@ -78,7 +79,7 @@
 			<div class="row">
 				<div class="col-md-6">
 					<h3 class="pull-left">Accountings:</h3>
-					<h3 class="pull-right"><%= link_to content_tag(:span,"",class:"glyphicon glyphicon-credit-card")+' New', new_group_accounting_path(group_id: @group.id), class:"btn btn-success"%></h3>
+					<h3 class="pull-right"><%= link_to content_tag(:span,"",class:"glyphicon glyphicon-credit-card")+' New', group_accounting_path(group_id: @group.id, id: 0), class:"btn btn-success"%></h3>
 					<div class="clearfix"></div>
 					<table class="table">
 						<thead>

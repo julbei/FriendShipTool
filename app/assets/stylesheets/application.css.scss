@@ -67,7 +67,15 @@ h1 .btn-primary{
   box-shadow: 1px 1px 1px 0 #D4D4D4;
   -webkit-border-radius: 3px 3px 3px 3px;
   border-radius: 3px 3px 3px 3px;
-
+  .money-positive{
+    font-size: 0.8em;
+  }
+.money-negative{
+    font-size: 0.8em;
+}
+.money-zero{
+    font-size: 0.8em;
+}
 
 }
   .img-person{

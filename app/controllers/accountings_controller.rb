@@ -11,8 +11,6 @@ class AccountingsController < ApplicationController
   # GET /accountings/1
   # GET /accountings/1.json
   def show
-     @group = Group.find(params[:group_id]) 
-     @accounting = @group.accountings.find(params[:id])
   end
 
   # GET /accountings/new
@@ -57,7 +55,7 @@ class AccountingsController < ApplicationController
     respond_to do |format|
       if @accounting.update(accounting_params)
         format.html { redirect_to @group, notice: 'Accounting was successfully updated.' }
-        format.json { render :show, status: :ok, location: @accounting }
+        format.json { render json: @accounting, status: :ok }
       else
         format.html { render :edit }
         format.json { render json: @accounting.errors, status: :unprocessable_entity }
@@ -99,8 +97,22 @@ class AccountingsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_accounting
-      @group = Group.find(params[:group_id]) 
-      @accounting = Accounting.find(params[:id])
+      @id = params[:id]
+      @group = Group.find(params[:group_id])
+      if(@id == "0")
+        @accounting = @group.accountings.build
+        @accounting.person = current_user.people.where(group_id: @group.id).first
+        @accounting.amount = 0.00
+        @accounting.date = Time.now
+        @accounting.name = ""
+        @share_amount = @accounting.amount / @group.persons.count
+        @group.persons.each do |person|
+          @accounting.shares.build(lender: @accounting.person, borrower: person, amount: @share_amount)
+        end
+        @accounting.save
+      else
+        @accounting = Accounting.find(@id)
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
