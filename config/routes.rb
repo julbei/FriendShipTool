@@ -13,7 +13,8 @@ Wgtool::Application.routes.draw do
       resources :shares
     end
   end
-  
+  get 'groups/:group_id/accountings/:id/add_tag', to: 'accountings#add_tag'
+  get 'groups/:group_id/accountings/:id/remove_tag', to: 'accountings#remove_tag'
   get 'people/assign', to: 'people#assign'
 
   root :to => "home#index"

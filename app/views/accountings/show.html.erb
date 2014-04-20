@@ -20,13 +20,10 @@
 						<%= money(@accounting.amount) %>
 					</p>
 				</div>
-				<div class="col-md-6">
-					<strong>Tags:</strong>
-					<% @accounting.tags.each do |tag| %>
-					<span class="label label-primary"><%= tag.name %></span>
-					<% end %>
-						<%= select_tag(:id, options_from_collection_for_select((@accounting.group.tags - @accounting.tags), "id", "name"), prompt: "Add Tag", onchange: ("$('add_tag').submit()")) %>
-				</div>
+				<div class="col-md-6" id="tags">
+					<% @tags = @accounting.tags %>
+					<%= render :partial => "tags", :object => @tags %>
+			    </div>
 			</div>
 			<div class="row">
 				<div class="col-md-12">

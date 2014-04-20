@@ -1,0 +1,10 @@
+<strong>Tags:</strong>
+					<% @accounting.tags.each do |tag| %>
+					<div class="btn-group">
+					<span class="label label-primary"><%= tag.name %></span> <%= link_to "", {action: 'remove_tag', tag_id: tag.id, remote: true}, class:"img-circle remove-tag glyphicon glyphicon-remove btn-danger"  %></div>			
+					<% end %>
+<%= select_tag 	:id, 
+				options_from_collection_for_select((@accounting.group.tags - @accounting.tags), "id", "name"), 
+				prompt: "Add Tag", 
+				:onchange => "add_tag(#{@group.id}, #{@accounting.id}, this.value)" %>
+				

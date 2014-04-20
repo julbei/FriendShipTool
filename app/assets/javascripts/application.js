@@ -19,3 +19,15 @@
 $(document).on("ready page:change", function() {
     $('.person-tooltip').tooltip();
 });
+
+function add_tag(group_id, accounting_id, tag_id) {  
+  jQuery.ajax({
+    url: "/groups/"+group_id+"/accountings/"+accounting_id+"/add_tag",
+    type: "GET",
+    data: {"tag_id" : tag_id},
+    dataType: "html",
+    success: function(data) {
+      jQuery("#tags").html(data);
+    }
+  });
+}

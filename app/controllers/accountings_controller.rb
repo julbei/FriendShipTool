@@ -74,7 +74,28 @@ class AccountingsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
+  
+  def add_tag
+    @group = Group.find(params[:group_id]) 
+    @accounting = Accounting.find(params[:id])
+    @tag = Tag.find(params[:tag_id])
+    @accounting.tags << @tag
+    @tags = @accounting.tags
+    render :partial => "tags", :object => @tags
+  end
+  
+  def remove_tag
+    @group = Group.find(params[:group_id]) 
+    @accounting = Accounting.find(params[:id])
+    @accounting.taggings.where(tag_id: params[:tag_id]).first.destroy
+    @accounting.save
+    @tags = @accounting.tags
+    respond_to do |format|
+      format.html # => ‘views/info/about.html.erb’ inside layout template on HTTP Request
+      format.js {render 'show_tags.js'} # => renders ‘views/info/about.js.erb’
+    end
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_accounting
